@@ -60,3 +60,6 @@ target/
 docs/examples/.ipynb_checkpoints/
 .idea/
 venv/
+
+# custom
+*.sqlite3
