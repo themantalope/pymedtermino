@@ -300,7 +300,7 @@ Additional attributes are available for relations, and are listed in the :attr:`
   def term_clean(self):
     term = self.term 
     cleaned = re.sub(sub_pattern, '', term)
-    return cleaned 
+    return cleaned.strip()
 
 SNOMEDCT = SNOMEDCT()
 
