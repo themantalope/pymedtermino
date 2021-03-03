@@ -35,7 +35,9 @@ __all__ = ["SNOMEDCT", "Group"]
 
 import sys, os, os.path
 import pymedtermino
+import re 
 
+sub_pattern = re.compile('\(.*\)')
 
 db        = pymedtermino.connect_sqlite3("snomedct")
 db_cursor = db.cursor()
@@ -73,6 +75,8 @@ class SNOMEDCT(pymedtermino.Terminology):
     pymedtermino.snomedct.db_cursor.execute("SELECT Id FROM Concept WHERE is_in_core = 1")
     for (code,) in pymedtermino.snomedct.db_cursor.fetchall():
       yield self[code]
+
+  
       
       
 class Group(object):
@@ -291,6 +295,12 @@ Additional attributes are available for relations, and are listed in the :attr:`
           for j in getattr(i, relation):
             if j.is_a(SNOMEDCT[404684003]): r.add(j)
     return r
+  
+  @property
+  def term_clean(self):
+    term = self.term 
+    cleaned = re.sub(sub_pattern, '', term)
+    return cleaned 
 
 SNOMEDCT = SNOMEDCT()
 
